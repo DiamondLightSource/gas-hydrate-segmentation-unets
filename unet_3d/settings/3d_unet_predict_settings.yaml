@@ -1,0 +1,14 @@
+data_dir: /path/to/data/dir
+data_fn: DATA_for_prediction_filename.h5
+model_dir: /path/to/directory/containing/model
+model_fn: filename_of_model.pytorch
+data_out_dir: /path/to/data/output/dir
+data_out_fn: filename_for_segmentation_output.h5
+hdf5_path: /data # Internal HDF5 path for loading data
+# Parameters for generating patches
+patch_size:
+  [192, 192, 192] # Size of patches for prediction
+patch_overlap: 32 # How much overlap between prediction patches
+padding_mode: reflect # One of [reflect, edge, circular, null]
+cuda_device: 0 # The graphics card to use (between 0 and 3 for a machine with 4 GPUs)
+thresh_val: 0.5 # Threshold cutoff value for binary segmentation. Must be between 0 and 1.
