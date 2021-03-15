@@ -82,4 +82,16 @@ You should now be able to run the U-net training and prediction by calling the r
 
 These can be found in the `matlab_scripts` directory.
 
+For computation of segmentation performance based on the central 40 XY slices:
+'segmentation_performance.m' 
+ 
+To convert 572x572x572 voxel training and validation HDF5 subvolumes into RootPainter-readable slices:
+'rootpainter_annot_CH4.m'
+'rootpainter_annot_sand.m'
+ 
+To convert HDF5 file data to tiff stacks for visualisation:
+'h5_to_tiff_stack.m'
+ 
+All MATLAB scripts are run using the MATLAB app and include a graphical user interface for file input/output.
+
 MATLAB code was created using MATLAB 2020b.
