@@ -16,7 +16,8 @@ Natural Environment Research Council (UK) grant No. NE/K00008X/1
 
 ### 2d and 3d U-net training and prediction scripts 
 
-These can be found in the `unet_methods` directory. 
+These can be found in the `unet_methods` directory.
+On Linux, For ease of installation and use we recommend downloading the [singularity container](#singularity-container).
 
 #### 2d methods
 
@@ -67,7 +68,9 @@ A segmented volume will be saved to the directory where your input data resides.
 
 #### Installation
 
-In order to run the scripts locally you will need an NVIDIA GPU, ideally with at least 8GB of memory and that supports CUDA 10 or greater. We recommend creating an [Anaconda](https://www.anaconda.com/products/individual#Downloads) environment using the `unet_environment.yaml` file found in `unet_methods`.
+In order to run the scripts you will need an NVIDIA GPU, ideally with at least 8GB of memory and that supports CUDA 10 or greater. 
+For U-Net segmentation, we recommend using the [singularity container](#singularity-container).  
+Otherwise, If you want to install locally, create an [Anaconda](https://www.anaconda.com/products/individual#Downloads) environment using the `unet_environment.yaml` file found in `unet_methods`.
 
 ```shell
 conda env create -n unet_env -f unet_methods/unet_environment.yaml
@@ -78,7 +81,52 @@ Once the environment is installed you can activate it
 ```shell
 conda activate unet_env
 ```
-You should now be able to run the U-net training and prediction by calling the relevant scripts using Python. 
+You should now be able to run the U-net training and prediction by calling the relevant scripts using Python.
+
+### Singularity Container
+
+Rather than installing your own anaconda environment and downloading the codebase, both can be retrieved in a singularity container.
+```shell
+singularity pull library://ollyking/unet-segmentation/unet_conda_container
+```
+To run the container, first a writable data directory needs to be created to be bound to the container. This directory should contain:
+- the data and label files for model training
+- a subdirectory named `unet-settings`, this will contain the YAML settings files. This directory can be copied from the repository and is found [here](https://github.com/DiamondLightSource/gas-hydrate-segmentation-unets/tree/main/unet_methods/unet-settings). 
+
+In addition, the trained models and any predictions will also be output to this folder.
+
+The following examples assume that the data directory was named `my_data_dir` and sits in the same directory as the singularity image. The container is run with `singularity run` and the data directory is bound with the commandline argument `-B my_data_dir/:/data`, this binds it at the location `/data` within the container. In addition the flag `--nv` is needed in order to give the container access to the GPU. 
+
+#### For 2d U-net training using the container image
+
+```shell
+singularity run --nv -B my_data_dir/:/data unet_conda_container_latest.sif 2dunet-train --data /data/<my_data_file.h5> --labels /data/<my_label_file.h5> --data_dir /data
+```
+
+A model will be trained and saved to `my_data_dir` along with a preview image.
+
+#### For 2d U-net prediction using the container image
+
+```shell
+singularity run --nv -B my_data_dir/:/data unet_conda_container_latest.sif 2dunet-predict /data/<my_trained_2d_model.zip> /data/<data_file_to_predict.h5> --data_dir /data
+```
+
+A directory of segmented volumes will be saved to `my_data_dir`.
+
+#### For 3d U-net training using the container image
+
+```shell
+singularity run --nv -B my_data_dir/:/data unet_conda_container_latest.sif 3dunet-train /data/<my_data_file.h5> /data/<my_label_file.h5> /data/<my_validation_data_file.h5> /data/<my_validation_label_file.h5> --data_dir /data
+
+```
+A model will be trained and saved to `my_data_dir` along with a preview image and a graph of training and validation loss. In addition, a segmentation of the validation volume is saved. 
+
+#### For 3d U-net prediction using the container image
+
+```shell
+singularity run --nv -B my_data_dir/:/data unet_conda_container_latest.sif 3dunet-predict /data/<my_trained_3d_model.pytorch> /data/<data_file_to_predict.h5> --data_dir /data
+```
+The segmented volume will be saved to `my_data_dir`.
 
 ### Data preparation and Rootpainter training data scripts
 
