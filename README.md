@@ -2,11 +2,11 @@ This repository has been published to Zenodo [![DOI](https://zenodo.org/badge/34
 
 # Gas Hydrate Segmentation Using U-nets. Code Repository.
 
-This code repository supports the article manuscript entitled 'U-Net Segmentation Methods for Variable-Contrast XCT Images of Methane-Bearing Sand'
+This code repository supports the article manuscript entitled 'U-Net Segmentation Methods for Variable-Contrast XCT Images of Methane-Bearing Sand Using Small Training Datasets'
 Authored by F. J. Alvarez-Borges, O. N. F. King, B. N. Madhusudhan, T. Connolley, M. Basham and S. I. Ahmed.
-March 2021
+April 2022
 
-Copyright 2021 Diamond Light Source Ltd.
+Copyright 2022 Diamond Light Source Ltd.
 Licensed under the Apache License, Version 2.0
 
 Funders:
